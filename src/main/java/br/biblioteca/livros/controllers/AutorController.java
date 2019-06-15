@@ -7,50 +7,44 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.biblioteca.livros.entidades.Livro;
+import br.biblioteca.livros.entidades.Autor;
 
 @Controller
-@RequestMapping("/livros")
-public class LivroController {
+@RequestMapping("/autores")
+public class AutorController {
 	
 	@GetMapping("/list")
 	public ModelAndView index() {
 		System.out.println("listei");
-		return new ModelAndView("livros/index");
+		return new ModelAndView("autores/index");
 	}
 	
 	@GetMapping("/novo")
 	public ModelAndView create() {
 		System.out.println("criei");
-		return new ModelAndView("livros/novo");
+		return new ModelAndView("redirect:/autores/list");
 	}
 	
 	@GetMapping("/alterar/{id}")
 	public ModelAndView edit(@PathVariable("id") Long id) {
 		System.out.println("alterei o numero " + id);
-		return new ModelAndView("redirect:/livros/list");
+		return new ModelAndView("redirect:/autores/list");
 	}
 	
 	@GetMapping("/excluir/{id}")
 	public ModelAndView delete(@PathVariable("id") Long id) {
 		System.out.println("deletei o numero " + id);
-		return new ModelAndView("redirect:/livros/list");
+		return new ModelAndView("redirect:/autores/list");
 	}
 	
 	@PostMapping("/gravar")
-	public ModelAndView store(Livro livro) {
-		System.out.println("Gravado " + livro.toString());
-		
-		ModelAndView model = new ModelAndView("/livros/criado");
-		model.addObject("livro", livro);
-		
-		return model; 
-	}
-	
-	@PostMapping("/atualizar")
-	public ModelAndView update(Livro livro) {
+	public ModelAndView store(Autor autor) {
 		return new ModelAndView();
 	}
 	
+	@PostMapping("/atualizar")
+	public ModelAndView update(Autor autor) {
+		return new ModelAndView();
+	}
 
 }
