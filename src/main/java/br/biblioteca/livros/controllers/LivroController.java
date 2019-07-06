@@ -1,17 +1,28 @@
 package br.biblioteca.livros.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.biblioteca.livros.entidades.Autor;
 import br.biblioteca.livros.entidades.Livro;
+import br.biblioteca.livros.services.AutorService;
+import br.biblioteca.livros.services.LivroService;
 
 @Controller
 @RequestMapping("/livros")
 public class LivroController {
+	
+	@Autowired
+	private LivroService service;
+
+	@Autowired
+	private AutorService serviceAutor;
 	
 	@GetMapping("/list")
 	public ModelAndView index() {
@@ -20,31 +31,39 @@ public class LivroController {
 	}
 	
 	@GetMapping("/novo")
-	public ModelAndView create() {
+	public ModelAndView create(@ModelAttribute Livro livro) {
+		ModelAndView modelAndView = new ModelAndView("livros/livro");
+		Iterable<Autor> autores = serviceAutor.listaAutores();
+		modelAndView.addObject("autores", autores);
 		System.out.println("criei");
-		return new ModelAndView("livros/novo");
+		return modelAndView;
 	}
 	
 	@GetMapping("/alterar/{id}")
 	public ModelAndView edit(@PathVariable("id") Long id) {
 		System.out.println("alterei o numero " + id);
-		return new ModelAndView("redirect:/livros/list");
+		Livro livro = service.buscarLivro(id);
+		Iterable<Autor> autores = serviceAutor.listaAutores();
+		ModelAndView modelAndView = new ModelAndView("livros/livro");
+		modelAndView.addObject("autores", autores);
+		modelAndView.addObject("livro", livro);
+		return modelAndView;
 	}
 	
 	@GetMapping("/excluir/{id}")
 	public ModelAndView delete(@PathVariable("id") Long id) {
 		System.out.println("deletei o numero " + id);
+		service.apagarLivro(id);
 		return new ModelAndView("redirect:/livros/list");
 	}
 	
 	@PostMapping("/gravar")
 	public ModelAndView store(Livro livro) {
 		System.out.println("Gravado " + livro.toString());
+		service.salvaLivro(livro);
 		
-		ModelAndView model = new ModelAndView("/livros/criado");
-		model.addObject("livro", livro);
+		return new ModelAndView("redirect:/livros/list");
 		
-		return model; 
 	}
 	
 	@PostMapping("/atualizar")

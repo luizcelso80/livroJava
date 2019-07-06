@@ -35,6 +35,12 @@ public class Livro {
 	public Integer getQuantidadePaginas() {
 		return quantidadePaginas;
 	}
+	public Autor getAutor() {
+		return autor;
+	}
+	public void setAutor(Autor autor) {
+		this.autor = autor;
+	}
 	public void setQuantidadePaginas(Integer quantidadePaginas) {
 		this.quantidadePaginas = quantidadePaginas;
 	}

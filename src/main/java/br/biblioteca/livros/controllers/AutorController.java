@@ -1,5 +1,6 @@
 package br.biblioteca.livros.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,10 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.biblioteca.livros.entidades.Autor;
+import br.biblioteca.livros.services.AutorService;
 
 @Controller
 @RequestMapping("/autores")
 public class AutorController {
+	
+	@Autowired
+	private AutorService serviceAutor;
 	
 	@GetMapping("/list")
 	public ModelAndView index() {
@@ -22,7 +27,7 @@ public class AutorController {
 	@GetMapping("/novo")
 	public ModelAndView create() {
 		System.out.println("criei");
-		return new ModelAndView("redirect:/autores/list");
+		return new ModelAndView("/autores/create");
 	}
 	
 	@GetMapping("/alterar/{id}")
@@ -39,7 +44,8 @@ public class AutorController {
 	
 	@PostMapping("/gravar")
 	public ModelAndView store(Autor autor) {
-		return new ModelAndView();
+		serviceAutor.salvaAutor(autor);
+		return new ModelAndView("redirect:/livros/list");
 	}
 	
 	@PostMapping("/atualizar")
