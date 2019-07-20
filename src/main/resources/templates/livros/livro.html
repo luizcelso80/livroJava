@@ -8,7 +8,10 @@
 <form th:action="@{/livros/gravar}"
     method="post" th:object="${livro}" action="#" >
     <input type="hidden"  th:field="*{id}" />
-    Nome: <input type="text" name="nome" th:field="*{nome}"> <br/>
+    Nome: <input type="text" name="nome" th:field="*{nome}">
+    <p>bostarala</p>
+    <span  th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Error</span><br/>
+    
     Quantidade Páginas: <input type="text" name="quantidadePaginas" th:field="*{quantidadePaginas}"><br/>
     <select th:object="${livro}" th:field="*{autor}">
         <option value="">Selecione o Autor</option>

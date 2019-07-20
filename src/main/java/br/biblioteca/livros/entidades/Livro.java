@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -13,7 +16,12 @@ public class Livro {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
+	@NotNull
+	@Size(min = 8, max = 100)
 	private String nome;
+	
+	@Min(2)
 	private Integer quantidadePaginas;
 	
 	@ManyToOne

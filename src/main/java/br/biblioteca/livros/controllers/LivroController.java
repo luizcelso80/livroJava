@@ -1,7 +1,10 @@
 package br.biblioteca.livros.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,8 +61,17 @@ public class LivroController {
 	}
 	
 	@PostMapping("/gravar")
-	public ModelAndView store(Livro livro) {
+	public ModelAndView store(@ModelAttribute("livro") @Valid Livro livro, BindingResult bindingResult) {
 		System.out.println("Gravado " + livro.toString());
+		if (bindingResult.hasErrors()) {
+			ModelAndView modelAndView = new ModelAndView("livros/livro");
+			Iterable<Autor> autores = serviceAutor.listaAutores();
+			modelAndView.addObject("autores", autores);
+			System.out.println("criei");
+			return modelAndView;
+			
+		}
+
 		service.salvaLivro(livro);
 		
 		return new ModelAndView("redirect:/livros/list");
