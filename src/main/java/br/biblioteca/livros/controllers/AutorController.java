@@ -45,7 +45,7 @@ public class AutorController {
 	}
 	
 	@PostMapping("/gravar")
-	public ModelAndView store(Autor autor) {
+	public ModelAndView store(@ModelAttribute("autor") Autor autor) {
 		serviceAutor.salvaAutor(autor);
 		return new ModelAndView("redirect:/livros/list");
 	}
