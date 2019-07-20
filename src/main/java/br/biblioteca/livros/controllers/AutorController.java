@@ -29,7 +29,7 @@ public class AutorController {
 	@GetMapping("novo")
 	public ModelAndView create(@ModelAttribute Autor autor) {
 		System.out.println("criei");
-		return new ModelAndView("/autores/create");
+		return new ModelAndView("autores/create");
 	}
 	
 	@GetMapping("/alterar/{id}")
