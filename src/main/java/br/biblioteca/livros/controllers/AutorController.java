@@ -24,7 +24,7 @@ public class AutorController {
 		return new ModelAndView("autores/index");
 	}
 	
-	@GetMapping("/novo")
+	@GetMapping("novo")
 	public ModelAndView create() {
 		System.out.println("criei");
 		return new ModelAndView("/autores/create");
